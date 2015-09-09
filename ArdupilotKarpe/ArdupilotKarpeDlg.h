@@ -3,14 +3,17 @@
 //
 
 #pragma once
-
+#include "Agent1Dlg.h"
 
 // CArdupilotKarpeDlg dialog
 class CArdupilotKarpeDlg : public CDialogEx
 {
+
 // Construction
 public:
 	CArdupilotKarpeDlg(CWnd* pParent = NULL);	// standard constructor
+
+	CAgent1Dlg *m_Agent1;
 
 // Dialog Data
 	enum { IDD = IDD_ARDUPILOTKARPE_DIALOG };

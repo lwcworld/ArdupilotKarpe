@@ -1,15 +1,15 @@
 #pragma once
 
 
-// Agent1Dlg dialog
+// CAgent1Dlg dialog
 
-class Agent1Dlg : public CDialogEx
+class CAgent1Dlg : public CDialog
 {
-	DECLARE_DYNAMIC(Agent1Dlg)
+	DECLARE_DYNAMIC(CAgent1Dlg)
 
 public:
-	Agent1Dlg(CWnd* pParent = NULL);   // standard constructor
-	virtual ~Agent1Dlg();
+	CAgent1Dlg(CWnd* pParent = NULL);   // standard constructor
+	virtual ~CAgent1Dlg();
 
 // Dialog Data
 	enum { IDD = IDD_AGENT1 };

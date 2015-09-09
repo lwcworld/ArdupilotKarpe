@@ -7,28 +7,28 @@
 #include "afxdialogex.h"
 
 
-// Agent1Dlg dialog
+// CAgent1Dlg dialog
 
-IMPLEMENT_DYNAMIC(Agent1Dlg, CDialogEx)
+IMPLEMENT_DYNAMIC(CAgent1Dlg, CDialog)
 
-Agent1Dlg::Agent1Dlg(CWnd* pParent /*=NULL*/)
-	: CDialogEx(Agent1Dlg::IDD, pParent)
+CAgent1Dlg::CAgent1Dlg(CWnd* pParent /*=NULL*/)
+	: CDialog(CAgent1Dlg::IDD, pParent)
 {
 
 }
 
-Agent1Dlg::~Agent1Dlg()
+CAgent1Dlg::~CAgent1Dlg()
 {
 }
 
-void Agent1Dlg::DoDataExchange(CDataExchange* pDX)
+void CAgent1Dlg::DoDataExchange(CDataExchange* pDX)
 {
-	CDialogEx::DoDataExchange(pDX);
+	CDialog::DoDataExchange(pDX);
 }
 
 
-BEGIN_MESSAGE_MAP(Agent1Dlg, CDialogEx)
+BEGIN_MESSAGE_MAP(CAgent1Dlg, CDialog)
 END_MESSAGE_MAP()
 
 
-// Agent1Dlg message handlers
+// CAgent1Dlg message handlers

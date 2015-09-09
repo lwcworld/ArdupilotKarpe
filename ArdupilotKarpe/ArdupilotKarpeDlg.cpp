@@ -7,7 +7,6 @@
 #include "ArdupilotKarpeDlg.h"
 #include "afxdialogex.h"
 #include "Sdk2Example2.h"
-#include "Agent1Dlg.h"
 
 // ¿ìÃ¶ includeÀÔ´Ï´Ù.
 
@@ -232,6 +231,7 @@ void CArdupilotKarpeDlg::OnBnClickedBtKarpedisconnect()
 void CArdupilotKarpeDlg::OnBnClickedBtAgent1()
 {
 	// TODO: Add your control notification handler code here
-	Agent1Dlg Agent1;
-	Agent1.DoModal();
+	m_Agent1 = new CAgent1Dlg;
+	m_Agent1->Create(IDD_AGENT1);
+	m_Agent1->ShowWindow(SW_SHOW);
 }
