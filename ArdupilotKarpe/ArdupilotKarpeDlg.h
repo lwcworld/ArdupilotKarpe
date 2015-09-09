@@ -36,4 +36,5 @@ public:
 	afx_msg void OnBnClickedBtKarpeconnect();
 	afx_msg void OnBnClickedBtKarpedisconnect();
 	afx_msg void OnBnClickedBtAgent1();
+	afx_msg void OnTimer(UINT nIDEvent);
 };

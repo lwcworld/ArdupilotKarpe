@@ -32,6 +32,15 @@ void Wait(DWORD dwMillisecond)
 	}
 }
 
+void CArdupilotKarpeDlg::OnTimer(UINT nIDEvent)
+{
+	switch (nIDEvent)
+	{
+	case 1: // 타이머로 제어 입력
+		break;
+	}
+}
+
 // CAboutDlg dialog used for App About
 
 class CAboutDlg : public CDialogEx
@@ -85,6 +94,7 @@ BEGIN_MESSAGE_MAP(CArdupilotKarpeDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_BT_KARPECONNECT, &CArdupilotKarpeDlg::OnBnClickedBtKarpeconnect)
 	ON_BN_CLICKED(IDC_BT_KARPEDISCONNECT, &CArdupilotKarpeDlg::OnBnClickedBtKarpedisconnect)
 	ON_BN_CLICKED(IDC_BT_AGENT1, &CArdupilotKarpeDlg::OnBnClickedBtAgent1)
+	ON_WM_TIMER()
 END_MESSAGE_MAP()
 
 
@@ -120,6 +130,7 @@ BOOL CArdupilotKarpeDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// Set small icon
 
 	// TODO: Add extra initialization here
+	SetTimer(1, 20, NULL);
 
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
