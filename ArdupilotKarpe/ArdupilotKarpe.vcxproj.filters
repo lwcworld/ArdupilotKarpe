@@ -42,6 +42,9 @@
     <ClInclude Include="EVaRT2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Agent1Dlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ArdupilotKarpe.cpp">
@@ -57,6 +60,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Sdk2Example2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Agent1Dlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

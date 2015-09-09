@@ -7,6 +7,7 @@
 #include "ArdupilotKarpeDlg.h"
 #include "afxdialogex.h"
 #include "Sdk2Example2.h"
+#include "Agent1Dlg.h"
 
 // øÏ√∂ include¿‘¥œ¥Ÿ.
 
@@ -84,6 +85,7 @@ BEGIN_MESSAGE_MAP(CArdupilotKarpeDlg, CDialogEx)
 	ON_WM_QUERYDRAGICON()
 	ON_BN_CLICKED(IDC_BT_KARPECONNECT, &CArdupilotKarpeDlg::OnBnClickedBtKarpeconnect)
 	ON_BN_CLICKED(IDC_BT_KARPEDISCONNECT, &CArdupilotKarpeDlg::OnBnClickedBtKarpedisconnect)
+	ON_BN_CLICKED(IDC_BT_AGENT1, &CArdupilotKarpeDlg::OnBnClickedBtAgent1)
 END_MESSAGE_MAP()
 
 
@@ -224,4 +226,12 @@ void CArdupilotKarpeDlg::OnBnClickedBtKarpedisconnect()
 
 	sdkClient.Disconnect();
 	printf("\n\nFinished\n");
+}
+
+
+void CArdupilotKarpeDlg::OnBnClickedBtAgent1()
+{
+	// TODO: Add your control notification handler code here
+	Agent1Dlg Agent1;
+	Agent1.DoModal();
 }

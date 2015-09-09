@@ -101,6 +101,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Agent1Dlg.h" />
     <ClInclude Include="ArdupilotKarpe.h" />
     <ClInclude Include="ArdupilotKarpeDlg.h" />
     <ClInclude Include="EVaRT2.h" />
@@ -111,6 +112,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Agent1Dlg.cpp" />
     <ClCompile Include="ArdupilotKarpe.cpp" />
     <ClCompile Include="ArdupilotKarpeDlg.cpp" />
     <ClCompile Include="EvartSdk2Interface.cpp" />
