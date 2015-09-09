@@ -6,11 +6,31 @@
 #include "ArdupilotKarpe.h"
 #include "ArdupilotKarpeDlg.h"
 #include "afxdialogex.h"
+#include "Sdk2Example2.h"
+
+// 우철 include입니다.
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
 
+// 우철 함수입니다. 
+void Wait(DWORD dwMillisecond)
+{
+	MSG msg;
+	DWORD dwStart;
+
+	dwStart = GetTickCount();
+
+	while (GetTickCount() - dwStart < dwMillisecond)
+	{
+		while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
+		{
+			TranslateMessage(&msg);
+			DispatchMessage(&msg);
+		}
+	}
+}
 
 // CAboutDlg dialog used for App About
 
@@ -62,6 +82,8 @@ BEGIN_MESSAGE_MAP(CArdupilotKarpeDlg, CDialogEx)
 	ON_WM_SYSCOMMAND()
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
+	ON_BN_CLICKED(IDC_BT_KARPECONNECT, &CArdupilotKarpeDlg::OnBnClickedBtKarpeconnect)
+	ON_BN_CLICKED(IDC_BT_KARPEDISCONNECT, &CArdupilotKarpeDlg::OnBnClickedBtKarpedisconnect)
 END_MESSAGE_MAP()
 
 
@@ -150,3 +172,56 @@ HCURSOR CArdupilotKarpeDlg::OnQueryDragIcon()
 	return static_cast<HCURSOR>(m_hIcon);
 }
 
+
+
+void CArdupilotKarpeDlg::OnBnClickedBtKarpeconnect()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+
+	//Console::Allocate(); // 콘솔창 띄우는 사제 코드임. Console.cpp / console.h 필요함. 
+	// 일단은 stdafx.cpp 에 #pragma comment(linker, "/entry:WinMainCRTStartup /subsystem:console") 추가해서 쓰겠음. 
+	// 뭐가 나은지는 잘 모르겠음.
+
+	MySdk2Client sdkClient;
+
+	printf("*** SDK2 Sample Program modified by J1\n");
+	printf("*** Program Version: %s\n", APP_VERSION);
+	printf("*** SDK2 Version   : %s\n\n", EvartSdk2Interface::VersionString().c_str());
+
+	char str[3][15] = { "10.1.1.199", "10.1.1.199", "200000" }; //IP address, time(ms)
+	printf("%s\n%s\n%s\n\n", str[0], str[1], str[2]);
+
+	// Try to connect to the given EVaRT SDK2 server
+	//if (sdkClient.Connect(argv[1], argv[2], atoi(argv[3])))
+	if (sdkClient.Connect(str[0], str[1], atoi(str[2])))
+	{
+		//printf("Streaming data from EVaRT SDK2 server %s...\n\n", argv[1]);
+		printf("Streaming data from EVaRT SDK2 server %s...\n\n", str[0]);
+
+
+		// Just wait until we've received the required number of frames
+		while (sdkClient.IsFinished() == false)
+		{
+			Wait(1000);
+		}
+		sdkClient.Disconnect();
+
+		printf("\n\nFinished\n");
+	}
+	else
+	{
+		//printf("Could not connect to EVaRT SDK2 at %s\n", argv[1]);
+		printf("Could not connect to EVaRT SDK2 at %s\n", str[0]);
+	}
+	Wait(2000);
+}
+
+
+void CArdupilotKarpeDlg::OnBnClickedBtKarpedisconnect()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	MySdk2Client sdkClient;
+
+	sdkClient.Disconnect();
+	printf("\n\nFinished\n");
+}
