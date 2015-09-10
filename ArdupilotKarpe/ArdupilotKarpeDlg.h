@@ -5,6 +5,9 @@
 #pragma once
 #include "Agent1Dlg.h"
 #include "afxwin.h"
+#include "Mycomm.h"
+
+#define NQ (3)
 
 // CArdupilotKarpeDlg dialog
 class CArdupilotKarpeDlg : public CDialogEx
@@ -12,6 +15,10 @@ class CArdupilotKarpeDlg : public CDialogEx
 
 // Construction
 public:
+	CMycomm*     m_comm[NQ];
+	LRESULT      OnThreadClosed(WPARAM length, LPARAM lpara);
+	LRESULT      OnReceive(WPARAM length, LPARAM lpara);
+
 	CArdupilotKarpeDlg(CWnd* pParent = NULL);	// standard constructor
 
 	CAgent1Dlg *m_Agent1;
@@ -50,4 +57,7 @@ public:
 	CComboBox m_combo_baudrate_list3;
 	CString m_str_comport3;
 	CString m_str_baudrate3;
+	CEdit m_edit_rcv_view1;
+	CEdit m_edit_rcv_view2;
+	CEdit m_edit_rcv_view3;
 };

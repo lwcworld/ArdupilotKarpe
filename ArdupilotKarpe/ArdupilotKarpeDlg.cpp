@@ -104,17 +104,89 @@ void CArdupilotKarpeDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_COMBO_BAUDRATE3, m_combo_baudrate_list3);
 	DDX_CBString(pDX, IDC_COMBO_COMPORT3, m_str_comport3);
 	DDX_CBString(pDX, IDC_COMBO_BAUDRATE3, m_str_baudrate3);
+	DDX_Control(pDX, IDC_EDIT_RCV_VIEW1, m_edit_rcv_view1);
+	DDX_Control(pDX, IDC_EDIT_RCV_VIEW2, m_edit_rcv_view2);
+	DDX_Control(pDX, IDC_EDIT_REV_VIEW3, m_edit_rcv_view3);
 }
 
 BEGIN_MESSAGE_MAP(CArdupilotKarpeDlg, CDialogEx)
 	ON_WM_SYSCOMMAND()
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
+
+	ON_MESSAGE(WM_MYCLOSE, &CArdupilotKarpeDlg::OnThreadClosed)
+	ON_MESSAGE(WM_MYRECEIVE, &CArdupilotKarpeDlg::OnReceive)
+
 	ON_BN_CLICKED(IDC_BT_KARPECONNECT, &CArdupilotKarpeDlg::OnBnClickedBtKarpeconnect)
 	ON_BN_CLICKED(IDC_BT_KARPEDISCONNECT, &CArdupilotKarpeDlg::OnBnClickedBtKarpedisconnect)
 	ON_BN_CLICKED(IDC_BT_AGENT1, &CArdupilotKarpeDlg::OnBnClickedBtAgent1)
 	ON_WM_TIMER()
+
 END_MESSAGE_MAP()
+
+LRESULT CArdupilotKarpeDlg::OnThreadClosed(WPARAM length, LPARAM lpara)
+{
+	//overlapped i/o 핸들을닫는다.
+	((CMycomm*)lpara)->HandleClose();
+	delete ((CMycomm*)lpara);
+
+	return 0;
+}
+
+LRESULT CArdupilotKarpeDlg::OnReceive(WPARAM length, LPARAM lpara)
+{
+	CString str;
+	char data1[20000];
+	char data2[20000];
+	char data3[20000];
+
+	if (m_comm[0])
+	{
+		m_comm[0]->Receive(data1, length); //length 길이만큼데이터를받는다.
+		data1[length] = _T('\0');
+		str += _T("\r\n");
+		for (int i = 0; i<length; i++)
+		{
+			str += data1[i];
+		}
+		m_edit_rcv_view1.ReplaceSel(str); //에디트박스에표시하기위함
+		str = "";
+		//UpdateData(FALSE);
+		m_edit_rcv_view1.LineScroll(m_edit_rcv_view1.GetLineCount());
+	}
+
+	if (m_comm[1])
+	{
+		m_comm[1]->Receive(data2, length); //length 길이만큼데이터를받는다.
+		data2[length] = _T('\0');
+		str += _T("\r\n");
+		for (int i = 0; i<length; i++)
+		{
+			str += data2[i];
+		}
+		m_edit_rcv_view2.ReplaceSel(str); //에디트박스에표시하기위함
+		str = "";
+		//UpdateData(FALSE);
+		m_edit_rcv_view2.LineScroll(m_edit_rcv_view2.GetLineCount());
+	}
+
+	if (m_comm[2])
+	{
+		m_comm[2]->Receive(data3, length); //length 길이만큼데이터를받는다.
+		data3[length] = _T('\0');
+		str += _T("\r\n");
+		for (int i = 0; i<length; i++)
+		{
+			str += data3[i];
+		}
+		m_edit_rcv_view3.ReplaceSel(str); //에디트박스에표시하기위함
+		str = "";
+		//UpdateData(FALSE);
+		m_edit_rcv_view3.LineScroll(m_edit_rcv_view3.GetLineCount());
+	}
+
+	return 0;
+}
 
 
 // CArdupilotKarpeDlg message handlers
