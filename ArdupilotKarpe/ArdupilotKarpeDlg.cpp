@@ -122,6 +122,15 @@ BEGIN_MESSAGE_MAP(CArdupilotKarpeDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_BT_AGENT1, &CArdupilotKarpeDlg::OnBnClickedBtAgent1)
 	ON_WM_TIMER()
 
+	ON_BN_CLICKED(IDC_BT_CONNECT1, &CArdupilotKarpeDlg::OnBnClickedBtConnect1)
+	ON_BN_CLICKED(IDC_BT_CONNECT2, &CArdupilotKarpeDlg::OnBnClickedBtConnect2)
+	ON_BN_CLICKED(IDC_BT_CONNECT3, &CArdupilotKarpeDlg::OnBnClickedBtConnect3)
+	ON_CBN_SELCHANGE(IDC_COMBO_COMPORT1, &CArdupilotKarpeDlg::OnCbnSelchangeComboComport1)
+	ON_CBN_SELCHANGE(IDC_COMBO_BAUDRATE1, &CArdupilotKarpeDlg::OnCbnSelchangeComboBaudrate1)
+	ON_CBN_SELCHANGE(IDC_COMBO_COMPORT2, &CArdupilotKarpeDlg::OnCbnSelchangeComboComport2)
+	ON_CBN_SELCHANGE(IDC_COMBO_BAUDRATE2, &CArdupilotKarpeDlg::OnCbnSelchangeComboBaudrate2)
+	ON_CBN_SELCHANGE(IDC_COMBO_COMPORT3, &CArdupilotKarpeDlg::OnCbnSelchangeComboComport3)
+	ON_CBN_SELCHANGE(IDC_COMBO_BAUDRATE3, &CArdupilotKarpeDlg::OnCbnSelchangeComboBaudrate3)
 END_MESSAGE_MAP()
 
 LRESULT CArdupilotKarpeDlg::OnThreadClosed(WPARAM length, LPARAM lpara)
@@ -273,8 +282,25 @@ BOOL CArdupilotKarpeDlg::OnInitDialog()
 	m_combo_baudrate_list2.AddString(_T("57600"));
 	m_combo_baudrate_list3.AddString(_T("57600"));  // 잘못 만듬... ;;; ㅠㅠㅠ
 
+	for (int i = 0; i < 3; i++)
+	{
+		comport_state[i] = false;
+	}
 
-	
+	GetDlgItem(IDC_BT_CONNECT1)->SetWindowText(_T("OPEN"));
+	GetDlgItem(IDC_BT_CONNECT2)->SetWindowText(_T("OPEN"));
+	GetDlgItem(IDC_BT_CONNECT3)->SetWindowText(_T("OPEN"));
+
+	m_str_comport1 = _T("COM2");
+	m_str_baudrate1 = _T("115200");
+
+	m_str_comport2 = _T("COM2");
+	m_str_baudrate2 = _T("115200");
+
+	m_str_comport3 = _T("COM2");
+	m_str_baudrate3 = _T("115200");
+
+	UpdateData(FALSE);
 
 	SetTimer(1, 20, NULL);
 
@@ -391,4 +417,147 @@ void CArdupilotKarpeDlg::OnBnClickedBtAgent1()
 	m_Agent1 = new CAgent1Dlg;
 	m_Agent1->Create(IDD_AGENT1);
 	m_Agent1->ShowWindow(SW_SHOW);
+}
+
+void CArdupilotKarpeDlg::OnBnClickedBtConnect1()
+{
+	// TODO: Add your control notification handler code here
+	if (comport_state[0])
+	{
+		if (m_comm[0])        //컴포트가존재하면
+		{
+			m_comm[0]->Close();
+			m_comm[0] = NULL;
+			AfxMessageBox(_T("COM 포트닫힘"));
+			comport_state[0] = false;
+			GetDlgItem(IDC_BT_CONNECT1)->SetWindowText(_T("OPEN"));
+			//GetDlgItem(IDC_BT_SEND1)->EnableWindow(false);
+		}
+	}
+	else
+	{
+		m_comm[0] = new CMycomm(_T("\\\\.\\") + m_str_comport1, m_str_baudrate1, _T("None"), _T("8 Bit"), _T("1 Bit"));         // initial Comm port
+		if (m_comm[0]->Create(GetSafeHwnd()) != 0) //통신포트를열고윈도우의핸들을넘긴다.
+		{
+			AfxMessageBox(_T("COM 포트열림"));
+			comport_state[0] = true;
+			GetDlgItem(IDC_BT_CONNECT1)->SetWindowText(_T("CLOSE"));
+			//GetDlgItem(IDC_BT_SEND)->EnableWindow(true);
+		}
+		else
+		{
+			AfxMessageBox(_T("ERROR!"));
+		}
+
+	}
+}
+
+
+void CArdupilotKarpeDlg::OnBnClickedBtConnect2()
+{
+	// TODO: Add your control notification handler code here
+	if (comport_state[1])
+	{
+		if (m_comm[1])        //컴포트가존재하면
+		{
+			m_comm[1]->Close();
+			m_comm[1] = NULL;
+			AfxMessageBox(_T("COM 포트닫힘"));
+			comport_state[1] = false;
+			GetDlgItem(IDC_BT_CONNECT2)->SetWindowText(_T("OPEN"));
+			//GetDlgItem(IDC_BT_SEND)->EnableWindow(false);
+		}
+	}
+	else
+	{
+		m_comm[1] = new CMycomm(_T("\\\\.\\") + m_str_comport2, m_str_baudrate2, _T("None"), _T("8 Bit"), _T("1 Bit"));         // initial Comm port
+		if (m_comm[1]->Create(GetSafeHwnd()) != 0) //통신포트를열고윈도우의핸들을넘긴다.
+		{
+			AfxMessageBox(_T("COM 포트열림"));
+			comport_state[1] = true;
+			GetDlgItem(IDC_BT_CONNECT2)->SetWindowText(_T("CLOSE"));
+			//GetDlgItem(IDC_BT_SEND)->EnableWindow(true);
+		}
+		else
+		{
+			AfxMessageBox(_T("ERROR!"));
+		}
+
+	}
+}
+
+
+void CArdupilotKarpeDlg::OnBnClickedBtConnect3()
+{
+	// TODO: Add your control notification handler code here
+	if (comport_state[2])
+	{
+		if (m_comm[2])        //컴포트가존재하면
+		{
+			m_comm[2]->Close();
+			m_comm[2] = NULL;
+			AfxMessageBox(_T("COM 포트닫힘"));
+			comport_state[2] = false;
+			GetDlgItem(IDC_BT_CONNECT3)->SetWindowText(_T("OPEN"));
+			//GetDlgItem(IDC_BT_SEND)->EnableWindow(false);
+		}
+	}
+	else
+	{
+		m_comm[2] = new CMycomm(_T("\\\\.\\") + m_str_comport3, m_str_baudrate3, _T("None"), _T("8 Bit"), _T("1 Bit"));         // initial Comm port
+		if (m_comm[2]->Create(GetSafeHwnd()) != 0) //통신포트를열고윈도우의핸들을넘긴다.
+		{
+			AfxMessageBox(_T("COM 포트열림"));
+			comport_state[2] = true;
+			GetDlgItem(IDC_BT_CONNECT3)->SetWindowText(_T("CLOSE"));
+			//GetDlgItem(IDC_BT_SEND)->EnableWindow(true);
+		}
+		else
+		{
+			AfxMessageBox(_T("ERROR!"));
+		}
+
+	}
+}
+
+
+void CArdupilotKarpeDlg::OnCbnSelchangeComboComport1()
+{
+	// TODO: Add your control notification handler code here
+	UpdateData();
+}
+
+
+void CArdupilotKarpeDlg::OnCbnSelchangeComboBaudrate1()
+{
+	// TODO: Add your control notification handler code here
+	UpdateData();
+}
+
+
+void CArdupilotKarpeDlg::OnCbnSelchangeComboComport2()
+{
+	// TODO: Add your control notification handler code here
+	UpdateData();
+}
+
+
+void CArdupilotKarpeDlg::OnCbnSelchangeComboBaudrate2()
+{
+	// TODO: Add your control notification handler code here
+	UpdateData();
+}
+
+
+void CArdupilotKarpeDlg::OnCbnSelchangeComboComport3()
+{
+	// TODO: Add your control notification handler code here
+	UpdateData();
+}
+
+
+void CArdupilotKarpeDlg::OnCbnSelchangeComboBaudrate3()
+{
+	// TODO: Add your control notification handler code here
+	UpdateData();
 }

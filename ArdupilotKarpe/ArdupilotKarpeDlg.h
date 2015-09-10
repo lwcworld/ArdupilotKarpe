@@ -45,6 +45,8 @@ public:
 	afx_msg void OnBnClickedBtKarpedisconnect();
 	afx_msg void OnBnClickedBtAgent1();
 	afx_msg void OnTimer(UINT nIDEvent);
+
+	BOOL comport_state[NQ];
 	CComboBox m_combo_comport_list1;
 	CComboBox m_combo_baudrate_list1;
 	CString m_str_comport1;
@@ -60,4 +62,13 @@ public:
 	CEdit m_edit_rcv_view1;
 	CEdit m_edit_rcv_view2;
 	CEdit m_edit_rcv_view3;
+	afx_msg void OnBnClickedBtConnect1();
+	afx_msg void OnBnClickedBtConnect2();
+	afx_msg void OnBnClickedBtConnect3();
+	afx_msg void OnCbnSelchangeComboComport1();
+	afx_msg void OnCbnSelchangeComboBaudrate1();
+	afx_msg void OnCbnSelchangeComboComport2();
+	afx_msg void OnCbnSelchangeComboBaudrate2();
+	afx_msg void OnCbnSelchangeComboComport3();
+	afx_msg void OnCbnSelchangeComboBaudrate3();
 };
