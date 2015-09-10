@@ -78,6 +78,12 @@ END_MESSAGE_MAP()
 
 CArdupilotKarpeDlg::CArdupilotKarpeDlg(CWnd* pParent /*=NULL*/)
 	: CDialogEx(CArdupilotKarpeDlg::IDD, pParent)
+	, m_str_comport1(_T(""))
+	, m_str_baudrate1(_T(""))
+	, m_str_comport2(_T(""))
+	, m_str_baudrate2(_T(""))
+	, m_str_comport3(_T(""))
+	, m_str_baudrate3(_T(""))
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
@@ -85,6 +91,18 @@ CArdupilotKarpeDlg::CArdupilotKarpeDlg(CWnd* pParent /*=NULL*/)
 void CArdupilotKarpeDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
+	DDX_Control(pDX, IDC_COMBO_COMPORT1, m_combo_comport_list1);
+	DDX_Control(pDX, IDC_COMBO_BAUDRATE1, m_combo_baudrate_list);
+	DDX_CBString(pDX, IDC_COMBO_COMPORT1, m_str_comport1);
+	DDX_CBString(pDX, IDC_COMBO_BAUDRATE1, m_str_baudrate1);
+	DDX_Control(pDX, IDC_COMBO_COMPORT2, m_combo_comport_list2);
+	DDX_Control(pDX, IDC_COMBO_BAUDRATE2, m_combo_baudrate_list2);
+	DDX_CBString(pDX, IDC_COMBO_COMPORT2, m_str_comport2);
+	DDX_CBString(pDX, IDC_COMBO_BAUDRATE2, m_str_baudrate2);
+	DDX_Control(pDX, IDC_COMBO_COMPORT3, m_combo_comport_list3);
+	DDX_Control(pDX, IDC_COMBO_BAUDRATE3, m_combo_baudrate3);
+	DDX_CBString(pDX, IDC_COMBO_COMPORT3, m_str_comport3);
+	DDX_CBString(pDX, IDC_COMBO_BAUDRATE3, m_str_baudrate3);
 }
 
 BEGIN_MESSAGE_MAP(CArdupilotKarpeDlg, CDialogEx)
