@@ -106,6 +106,7 @@
     <ClInclude Include="ArdupilotKarpeDlg.h" />
     <ClInclude Include="EVaRT2.h" />
     <ClInclude Include="EvartSdk2Interface.h" />
+    <ClInclude Include="Mycomm.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Sdk2Example2.h" />
     <ClInclude Include="stdafx.h" />
@@ -116,6 +117,7 @@
     <ClCompile Include="ArdupilotKarpe.cpp" />
     <ClCompile Include="ArdupilotKarpeDlg.cpp" />
     <ClCompile Include="EvartSdk2Interface.cpp" />
+    <ClCompile Include="Mycomm.cpp" />
     <ClCompile Include="Sdk2Example2.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

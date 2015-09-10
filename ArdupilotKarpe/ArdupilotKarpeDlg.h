@@ -39,7 +39,7 @@ public:
 	afx_msg void OnBnClickedBtAgent1();
 	afx_msg void OnTimer(UINT nIDEvent);
 	CComboBox m_combo_comport_list1;
-	CComboBox m_combo_baudrate_list;
+	CComboBox m_combo_baudrate_list1;
 	CString m_str_comport1;
 	CString m_str_baudrate1;
 	CComboBox m_combo_comport_list2;
@@ -47,7 +47,7 @@ public:
 	CString m_str_comport2;
 	CString m_str_baudrate2;
 	CComboBox m_combo_comport_list3;
-	CComboBox m_combo_baudrate3;
+	CComboBox m_combo_baudrate_list3;
 	CString m_str_comport3;
 	CString m_str_baudrate3;
 };

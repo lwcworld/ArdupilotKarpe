@@ -7,6 +7,7 @@
 #include "ArdupilotKarpeDlg.h"
 #include "afxdialogex.h"
 #include "Sdk2Example2.h"
+#include "Mycomm.h"
 
 // ¿ìÃ¶ includeÀÔ´Ï´Ù.
 
@@ -92,7 +93,7 @@ void CArdupilotKarpeDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
 	DDX_Control(pDX, IDC_COMBO_COMPORT1, m_combo_comport_list1);
-	DDX_Control(pDX, IDC_COMBO_BAUDRATE1, m_combo_baudrate_list);
+	DDX_Control(pDX, IDC_COMBO_BAUDRATE1, m_combo_baudrate_list1);
 	DDX_CBString(pDX, IDC_COMBO_COMPORT1, m_str_comport1);
 	DDX_CBString(pDX, IDC_COMBO_BAUDRATE1, m_str_baudrate1);
 	DDX_Control(pDX, IDC_COMBO_COMPORT2, m_combo_comport_list2);
@@ -100,7 +101,7 @@ void CArdupilotKarpeDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_CBString(pDX, IDC_COMBO_COMPORT2, m_str_comport2);
 	DDX_CBString(pDX, IDC_COMBO_BAUDRATE2, m_str_baudrate2);
 	DDX_Control(pDX, IDC_COMBO_COMPORT3, m_combo_comport_list3);
-	DDX_Control(pDX, IDC_COMBO_BAUDRATE3, m_combo_baudrate3);
+	DDX_Control(pDX, IDC_COMBO_BAUDRATE3, m_combo_baudrate_list3);
 	DDX_CBString(pDX, IDC_COMBO_COMPORT3, m_str_comport3);
 	DDX_CBString(pDX, IDC_COMBO_BAUDRATE3, m_str_baudrate3);
 }
@@ -148,6 +149,61 @@ BOOL CArdupilotKarpeDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// Set small icon
 
 	// TODO: Add extra initialization here
+	m_combo_comport_list1.AddString(_T("COM1"));
+	m_combo_comport_list1.AddString(_T("COM2"));
+	m_combo_comport_list1.AddString(_T("COM3"));
+	m_combo_comport_list1.AddString(_T("COM4"));
+	m_combo_comport_list1.AddString(_T("COM5"));
+	m_combo_comport_list1.AddString(_T("COM6"));
+	m_combo_comport_list1.AddString(_T("COM7"));
+	m_combo_comport_list1.AddString(_T("COM8"));
+	m_combo_comport_list1.AddString(_T("COM9"));
+	m_combo_comport_list1.AddString(_T("COM10"));
+	m_combo_comport_list1.AddString(_T("COM11"));
+	m_combo_comport_list1.AddString(_T("COM12"));
+	m_combo_comport_list1.AddString(_T("COM13"));
+	m_combo_comport_list1.AddString(_T("COM14"));
+	m_combo_comport_list1.AddString(_T("COM15"));
+
+	m_combo_comport_list2.AddString(_T("COM1"));
+	m_combo_comport_list2.AddString(_T("COM2"));
+	m_combo_comport_list2.AddString(_T("COM3"));
+	m_combo_comport_list2.AddString(_T("COM4"));
+	m_combo_comport_list2.AddString(_T("COM5"));
+	m_combo_comport_list2.AddString(_T("COM6"));
+	m_combo_comport_list2.AddString(_T("COM7"));
+	m_combo_comport_list2.AddString(_T("COM8"));
+	m_combo_comport_list2.AddString(_T("COM9"));
+	m_combo_comport_list2.AddString(_T("COM10"));
+	m_combo_comport_list2.AddString(_T("COM11"));
+	m_combo_comport_list2.AddString(_T("COM12"));
+	m_combo_comport_list2.AddString(_T("COM13"));
+	m_combo_comport_list2.AddString(_T("COM14"));
+	m_combo_comport_list2.AddString(_T("COM15"));
+
+	m_combo_comport_list3.AddString(_T("COM1"));
+	m_combo_comport_list3.AddString(_T("COM2"));
+	m_combo_comport_list3.AddString(_T("COM3"));
+	m_combo_comport_list3.AddString(_T("COM4"));
+	m_combo_comport_list3.AddString(_T("COM5"));
+	m_combo_comport_list3.AddString(_T("COM6"));
+	m_combo_comport_list3.AddString(_T("COM7"));
+	m_combo_comport_list3.AddString(_T("COM8"));
+	m_combo_comport_list3.AddString(_T("COM9"));
+	m_combo_comport_list3.AddString(_T("COM10"));
+	m_combo_comport_list3.AddString(_T("COM11"));
+	m_combo_comport_list3.AddString(_T("COM12"));
+	m_combo_comport_list3.AddString(_T("COM13"));
+	m_combo_comport_list3.AddString(_T("COM14"));
+	m_combo_comport_list3.AddString(_T("COM15"));
+
+	m_combo_baudrate_list1.AddString(_T("57600"));
+	m_combo_baudrate_list2.AddString(_T("57600"));
+	m_combo_baudrate_list3.AddString(_T("57600"));  // Àß¸ø ¸¸µë... ;;; ¤Ð¤Ð¤Ð
+
+
+	
+
 	SetTimer(1, 20, NULL);
 
 	return TRUE;  // return TRUE  unless you set the focus to a control
