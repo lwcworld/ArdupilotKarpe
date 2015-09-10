@@ -71,4 +71,12 @@ public:
 	afx_msg void OnCbnSelchangeComboBaudrate2();
 	afx_msg void OnCbnSelchangeComboComport3();
 	afx_msg void OnCbnSelchangeComboBaudrate3();
+	afx_msg void OnBnClickedBtAllarm();
+	afx_msg void OnBnClickedBtAlldisarm();
+	afx_msg void OnBnClickedBtArm1();
+	afx_msg void OnBnClickedBtDisarm1();
+	afx_msg void OnBnClickedBtArm2();
+	afx_msg void OnBnClickedBtDisarm2();
+	afx_msg void OnBnClickedBtArm3();
+	afx_msg void OnBnClickedBtDisarm3();
 };

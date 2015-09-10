@@ -8,6 +8,7 @@
 #include "afxdialogex.h"
 #include "Sdk2Example2.h"
 #include "Mycomm.h"
+#include "mavlink\common\mavlink.h"
 
 // ¿ìÃ¶ includeÀÔ´Ï´Ù.
 
@@ -131,6 +132,14 @@ BEGIN_MESSAGE_MAP(CArdupilotKarpeDlg, CDialogEx)
 	ON_CBN_SELCHANGE(IDC_COMBO_BAUDRATE2, &CArdupilotKarpeDlg::OnCbnSelchangeComboBaudrate2)
 	ON_CBN_SELCHANGE(IDC_COMBO_COMPORT3, &CArdupilotKarpeDlg::OnCbnSelchangeComboComport3)
 	ON_CBN_SELCHANGE(IDC_COMBO_BAUDRATE3, &CArdupilotKarpeDlg::OnCbnSelchangeComboBaudrate3)
+	ON_BN_CLICKED(IDC_BT_ALLARM, &CArdupilotKarpeDlg::OnBnClickedBtAllarm)
+	ON_BN_CLICKED(IDC_BT_ALLDISARM, &CArdupilotKarpeDlg::OnBnClickedBtAlldisarm)
+	ON_BN_CLICKED(IDC_BT_ARM1, &CArdupilotKarpeDlg::OnBnClickedBtArm1)
+	ON_BN_CLICKED(IDC_BT_DISARM1, &CArdupilotKarpeDlg::OnBnClickedBtDisarm1)
+	ON_BN_CLICKED(IDC_BT_ARM2, &CArdupilotKarpeDlg::OnBnClickedBtArm2)
+	ON_BN_CLICKED(IDC_BT_DISARM2, &CArdupilotKarpeDlg::OnBnClickedBtDisarm2)
+	ON_BN_CLICKED(IDC_BT_ARM3, &CArdupilotKarpeDlg::OnBnClickedBtArm3)
+	ON_BN_CLICKED(IDC_BT_DISARM3, &CArdupilotKarpeDlg::OnBnClickedBtDisarm3)
 END_MESSAGE_MAP()
 
 LRESULT CArdupilotKarpeDlg::OnThreadClosed(WPARAM length, LPARAM lpara)
@@ -282,7 +291,7 @@ BOOL CArdupilotKarpeDlg::OnInitDialog()
 	m_combo_baudrate_list2.AddString(_T("57600"));
 	m_combo_baudrate_list3.AddString(_T("57600"));  // Àß¸ø ¸¸µë... ;;; ¤Ð¤Ð¤Ð
 
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < NQ; i++)
 	{
 		comport_state[i] = false;
 	}
@@ -291,14 +300,14 @@ BOOL CArdupilotKarpeDlg::OnInitDialog()
 	GetDlgItem(IDC_BT_CONNECT2)->SetWindowText(_T("OPEN"));
 	GetDlgItem(IDC_BT_CONNECT3)->SetWindowText(_T("OPEN"));
 
-	m_str_comport1 = _T("COM2");
-	m_str_baudrate1 = _T("115200");
+	m_str_comport1 = _T("COM1");
+	m_str_baudrate1 = _T("57600");
 
 	m_str_comport2 = _T("COM2");
-	m_str_baudrate2 = _T("115200");
+	m_str_baudrate2 = _T("57600");
 
-	m_str_comport3 = _T("COM2");
-	m_str_baudrate3 = _T("115200");
+	m_str_comport3 = _T("COM3");
+	m_str_baudrate3 = _T("57600");
 
 	UpdateData(FALSE);
 
@@ -560,4 +569,152 @@ void CArdupilotKarpeDlg::OnCbnSelchangeComboBaudrate3()
 {
 	// TODO: Add your control notification handler code here
 	UpdateData();
+}
+
+
+void CArdupilotKarpeDlg::OnBnClickedBtAllarm()
+{
+	// TODO: Add your control notification handler code here
+	//------------------------------[arm]----------------------------------------------------
+	// Create buffer
+	static uint8_t buffer[150];
+	mavlink_message_t message;
+	//mavlink_msg_rc_channels_override_pack_chan(255, 0, 1, &message, 1, 0, rawdata[0], rawdata[1], rawdata[2], rawdata[3], rawdata[4], rawdata[5], rawdata[6], rawdata[7]);
+
+	mavlink_msg_command_long_pack(255, 0, &message, 1, 250, MAV_CMD_COMPONENT_ARM_DISARM, 0, 1, 0, 0, 0, 0, 0, 0);
+	//mavlink_msg_command_long_pack(system_id, component id, msg, target sys, target component, command, confirmation, par1, par2, par3, par4, par5, par6, par7);
+
+	int len = mavlink_msg_to_send_buffer(buffer, &message);
+
+	for (int i = 0; i < NQ; i++)
+	{
+		if (comport_state[i] == true) m_comm[i]->Send((const wchar_t*)buffer, len);
+	}
+	//---------------------------------------------------------------------------------------
+}
+
+void CArdupilotKarpeDlg::OnBnClickedBtAlldisarm()
+{
+	// TODO: Add your control notification handler code here
+	//---------------------------[disarm]----------------------------------------------------
+	// Create buffer
+	static uint8_t buffer[200];
+	mavlink_message_t message;
+
+	mavlink_msg_command_long_pack(255, 0, &message, 1, 250, MAV_CMD_COMPONENT_ARM_DISARM, 0, 0, 0, 0, 0, 0, 0, 0);
+	//mavlink_msg_command_long_pack(system_id, component id, msg, target sys, target component, command, confirmation, par1, par2, par3, par4, par5, par6, par7);
+	int len = mavlink_msg_to_send_buffer(buffer, &message);
+
+	for (int i = 0; i < NQ; i++)
+	{
+		if (comport_state[i] == true) m_comm[i]->Send((const wchar_t*)buffer, len);
+	}
+	//---------------------------------------------------------------------------------------
+}
+
+void CArdupilotKarpeDlg::OnBnClickedBtArm1()
+{
+	// TODO: Add your control notification handler code here
+	//------------------------------[arm]----------------------------------------------------
+	// Create buffer
+	static uint8_t buffer[150];
+	mavlink_message_t message;
+	//mavlink_msg_rc_channels_override_pack_chan(255, 0, 1, &message, 1, 0, rawdata[0], rawdata[1], rawdata[2], rawdata[3], rawdata[4], rawdata[5], rawdata[6], rawdata[7]);
+
+	mavlink_msg_command_long_pack(255, 0, &message, 1, 250, MAV_CMD_COMPONENT_ARM_DISARM, 0, 1, 0, 0, 0, 0, 0, 0);
+	//mavlink_msg_command_long_pack(system_id, component id, msg, target sys, target component, command, confirmation, par1, par2, par3, par4, par5, par6, par7);
+
+	int len = mavlink_msg_to_send_buffer(buffer, &message);
+
+	m_comm[0]->Send((const wchar_t*)buffer, len);
+	//---------------------------------------------------------------------------------------
+}
+
+
+void CArdupilotKarpeDlg::OnBnClickedBtDisarm1()
+{
+	// TODO: Add your control notification handler code here
+	//---------------------------[disarm]----------------------------------------------------
+	// Create buffer
+	static uint8_t buffer[200];
+	mavlink_message_t message;
+
+	mavlink_msg_command_long_pack(255, 0, &message, 1, 250, MAV_CMD_COMPONENT_ARM_DISARM, 0, 0, 0, 0, 0, 0, 0, 0);
+	//mavlink_msg_command_long_pack(system_id, component id, msg, target sys, target component, command, confirmation, par1, par2, par3, par4, par5, par6, par7);
+	int len = mavlink_msg_to_send_buffer(buffer, &message);
+
+	m_comm[0]->Send((const wchar_t*)buffer, len);
+	//---------------------------------------------------------------------------------------
+}
+
+
+void CArdupilotKarpeDlg::OnBnClickedBtArm2()
+{
+	// TODO: Add your control notification handler code here
+	//------------------------------[arm]----------------------------------------------------
+	// Create buffer
+	static uint8_t buffer[150];
+	mavlink_message_t message;
+	//mavlink_msg_rc_channels_override_pack_chan(255, 0, 1, &message, 1, 0, rawdata[0], rawdata[1], rawdata[2], rawdata[3], rawdata[4], rawdata[5], rawdata[6], rawdata[7]);
+
+	mavlink_msg_command_long_pack(255, 0, &message, 1, 250, MAV_CMD_COMPONENT_ARM_DISARM, 0, 1, 0, 0, 0, 0, 0, 0);
+	//mavlink_msg_command_long_pack(system_id, component id, msg, target sys, target component, command, confirmation, par1, par2, par3, par4, par5, par6, par7);
+
+	int len = mavlink_msg_to_send_buffer(buffer, &message);
+
+	m_comm[1]->Send((const wchar_t*)buffer, len);
+	//---------------------------------------------------------------------------------------
+}
+
+
+void CArdupilotKarpeDlg::OnBnClickedBtDisarm2()
+{
+	// TODO: Add your control notification handler code here
+	//---------------------------[disarm]----------------------------------------------------
+	// Create buffer
+	static uint8_t buffer[200];
+	mavlink_message_t message;
+
+	mavlink_msg_command_long_pack(255, 0, &message, 1, 250, MAV_CMD_COMPONENT_ARM_DISARM, 0, 0, 0, 0, 0, 0, 0, 0);
+	//mavlink_msg_command_long_pack(system_id, component id, msg, target sys, target component, command, confirmation, par1, par2, par3, par4, par5, par6, par7);
+	int len = mavlink_msg_to_send_buffer(buffer, &message);
+
+	m_comm[1]->Send((const wchar_t*)buffer, len);
+	//---------------------------------------------------------------------------------------
+}
+
+
+void CArdupilotKarpeDlg::OnBnClickedBtArm3()
+{
+	// TODO: Add your control notification handler code here
+	//------------------------------[arm]----------------------------------------------------
+	// Create buffer
+	static uint8_t buffer[150];
+	mavlink_message_t message;
+	//mavlink_msg_rc_channels_override_pack_chan(255, 0, 1, &message, 1, 0, rawdata[0], rawdata[1], rawdata[2], rawdata[3], rawdata[4], rawdata[5], rawdata[6], rawdata[7]);
+
+	mavlink_msg_command_long_pack(255, 0, &message, 1, 250, MAV_CMD_COMPONENT_ARM_DISARM, 0, 1, 0, 0, 0, 0, 0, 0);
+	//mavlink_msg_command_long_pack(system_id, component id, msg, target sys, target component, command, confirmation, par1, par2, par3, par4, par5, par6, par7);
+
+	int len = mavlink_msg_to_send_buffer(buffer, &message);
+
+	m_comm[2]->Send((const wchar_t*)buffer, len);
+	//---------------------------------------------------------------------------------------
+}
+
+
+void CArdupilotKarpeDlg::OnBnClickedBtDisarm3()
+{
+	// TODO: Add your control notification handler code here
+	//---------------------------[disarm]----------------------------------------------------
+	// Create buffer
+	static uint8_t buffer[200];
+	mavlink_message_t message;
+
+	mavlink_msg_command_long_pack(255, 0, &message, 1, 250, MAV_CMD_COMPONENT_ARM_DISARM, 0, 0, 0, 0, 0, 0, 0, 0);
+	//mavlink_msg_command_long_pack(system_id, component id, msg, target sys, target component, command, confirmation, par1, par2, par3, par4, par5, par6, par7);
+	int len = mavlink_msg_to_send_buffer(buffer, &message);
+
+	m_comm[2]->Send((const wchar_t*)buffer, len);
+	//---------------------------------------------------------------------------------------
 }
