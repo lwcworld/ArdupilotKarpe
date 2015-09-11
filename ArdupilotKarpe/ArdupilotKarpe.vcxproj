@@ -104,6 +104,7 @@
     <ClInclude Include="Agent1Dlg.h" />
     <ClInclude Include="ArdupilotKarpe.h" />
     <ClInclude Include="ArdupilotKarpeDlg.h" />
+    <ClInclude Include="DataSet.h" />
     <ClInclude Include="EVaRT2.h" />
     <ClInclude Include="EvartSdk2Interface.h" />
     <ClInclude Include="Mycomm.h" />
@@ -116,6 +117,7 @@
     <ClCompile Include="Agent1Dlg.cpp" />
     <ClCompile Include="ArdupilotKarpe.cpp" />
     <ClCompile Include="ArdupilotKarpeDlg.cpp" />
+    <ClCompile Include="DataSet.cpp" />
     <ClCompile Include="EvartSdk2Interface.cpp" />
     <ClCompile Include="Mycomm.cpp" />
     <ClCompile Include="Sdk2Example2.cpp" />

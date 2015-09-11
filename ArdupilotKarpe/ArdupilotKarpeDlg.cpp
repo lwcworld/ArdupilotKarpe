@@ -9,12 +9,16 @@
 #include "Sdk2Example2.h"
 #include "Mycomm.h"
 #include "mavlink\common\mavlink.h"
+#include "DataSet.h"
 
 // 우철 include입니다.
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
+
+//우철 선언입니다.
+DataSet data;
 
 // 우철 함수입니다. 
 void Wait(DWORD dwMillisecond)
@@ -36,11 +40,39 @@ void Wait(DWORD dwMillisecond)
 
 void CArdupilotKarpeDlg::OnTimer(UINT nIDEvent)
 {
-	switch (nIDEvent)
-	{
-	case 1: // 타이머로 제어 입력
-		break;
-	}
+	//switch (nIDEvent)
+	//{
+	//case 1: // 타이머로 제어 입력
+
+	//	for (int i=0; i < NQ; i++)
+	//	{
+	//		if (comport_state[i] == true)
+	//		{
+	//			switch (data.Mode[i]) // 1: hovering / 2: landing / 3: moving / 4: failsafe
+	//			{
+	//			case 1:
+
+	//				break;
+
+	//			case 2:
+
+	//				break;
+
+	//			case 3:
+
+	//				break;
+
+	//			case 4:
+
+	//				break;
+	//			}
+
+
+	//		}
+	//	}
+
+	//	break;
+	//}
 }
 
 // CAboutDlg dialog used for App About
@@ -312,7 +344,7 @@ BOOL CArdupilotKarpeDlg::OnInitDialog()
 	UpdateData(FALSE);
 
 	SetTimer(1, 20, NULL);
-
+	
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
 

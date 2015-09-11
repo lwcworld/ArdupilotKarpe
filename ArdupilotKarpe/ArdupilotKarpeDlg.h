@@ -8,6 +8,8 @@
 #include "Mycomm.h"
 
 #define NQ (3)
+#define time_gap 0.005
+#define D2R ((3.14159)/(180))
 
 // CArdupilotKarpeDlg dialog
 class CArdupilotKarpeDlg : public CDialogEx
