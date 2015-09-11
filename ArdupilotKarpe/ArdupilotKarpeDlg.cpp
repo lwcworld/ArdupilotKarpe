@@ -38,41 +38,61 @@ void Wait(DWORD dwMillisecond)
 	}
 }
 
+void CArdupilotKarpeDlg::CtrlSend(int QuadNum, double CTRL_roll, double CTRL_pitch, double CTRL_yaw, double CTRL_thrust)
+{
+	uint16_t rawdata[8];
+	static uint8_t buffer[200];
+	mavlink_message_t message;
+	rawdata[0] = int(CTRL_roll); //CH1 roll
+	rawdata[1] = int(CTRL_pitch); //CH2 pitch
+	rawdata[2] = int(CTRL_thrust); //CH3 throttle
+	rawdata[3] = int(CTRL_yaw); //CH4 yaw
+	rawdata[4] = 0;
+	rawdata[5] = 0;
+	rawdata[6] = 0;
+	rawdata[7] = 0;
+	mavlink_msg_rc_channels_override_pack_chan(255, 0, 1, &message, 1, 0, rawdata[0], rawdata[1], rawdata[2], rawdata[3], rawdata[4], rawdata[5], rawdata[6], rawdata[7]);
+	int len = mavlink_msg_to_send_buffer(buffer, &message);
+	m_comm[0]->Send((const wchar_t*)buffer, len);
+}
+
 void CArdupilotKarpeDlg::OnTimer(UINT nIDEvent)
 {
-	//switch (nIDEvent)
-	//{
-	//case 1: // 타이머로 제어 입력
+	switch (nIDEvent)
+	{
+	case 1: // 타이머로 제어 입력
 
-	//	for (int i=0; i < NQ; i++)
-	//	{
-	//		if (comport_state[i] == true)
-	//		{
-	//			switch (data.Mode[i]) // 1: hovering / 2: landing / 3: moving / 4: failsafe
-	//			{
-	//			case 1:
+		for (int i=0; i < NQ; i++)
+		{
+			if (comport_state[i] == true)
+			{
+				switch (data.Mode[i]) // 1: hovering / 2: landing / 3: moving / 4: failsafe
+				{
+				case 1:
+					data.StateCalc(i);
+					data.CtrlCalc(i);
+					CtrlSend(i, data.CTRL_command[i][0], data.CTRL_command[i][1], data.CTRL_command[i][2], data.CTRL_command[i][3]);
+					break;
 
-	//				break;
+				case 2:
 
-	//			case 2:
+					break;
 
-	//				break;
+				case 3:
 
-	//			case 3:
+					break;
 
-	//				break;
+				case 4:
 
-	//			case 4:
-
-	//				break;
-	//			}
+					break;
+				}
 
 
-	//		}
-	//	}
+			}
+		}
 
-	//	break;
-	//}
+		break;
+	}
 }
 
 // CAboutDlg dialog used for App About
@@ -172,6 +192,12 @@ BEGIN_MESSAGE_MAP(CArdupilotKarpeDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_BT_DISARM2, &CArdupilotKarpeDlg::OnBnClickedBtDisarm2)
 	ON_BN_CLICKED(IDC_BT_ARM3, &CArdupilotKarpeDlg::OnBnClickedBtArm3)
 	ON_BN_CLICKED(IDC_BT_DISARM3, &CArdupilotKarpeDlg::OnBnClickedBtDisarm3)
+	ON_BN_CLICKED(IDC_BT_HOVERING1, &CArdupilotKarpeDlg::OnBnClickedBtHovering1)
+	ON_BN_CLICKED(IDC_BT_LANDING1, &CArdupilotKarpeDlg::OnBnClickedBtLanding1)
+	ON_BN_CLICKED(IDC_BT_HOVERING2, &CArdupilotKarpeDlg::OnBnClickedBtHovering2)
+	ON_BN_CLICKED(IDC_BT_LANDING2, &CArdupilotKarpeDlg::OnBnClickedBtLanding2)
+	ON_BN_CLICKED(IDC_BT_HOVERING3, &CArdupilotKarpeDlg::OnBnClickedBtHovering3)
+	ON_BN_CLICKED(IDC_BT_LANDING3, &CArdupilotKarpeDlg::OnBnClickedBtLanding3)
 END_MESSAGE_MAP()
 
 LRESULT CArdupilotKarpeDlg::OnThreadClosed(WPARAM length, LPARAM lpara)
@@ -328,9 +354,9 @@ BOOL CArdupilotKarpeDlg::OnInitDialog()
 		comport_state[i] = false;
 	}
 
-	GetDlgItem(IDC_BT_CONNECT1)->SetWindowText(_T("OPEN"));
-	GetDlgItem(IDC_BT_CONNECT2)->SetWindowText(_T("OPEN"));
-	GetDlgItem(IDC_BT_CONNECT3)->SetWindowText(_T("OPEN"));
+	GetDlgItem(IDC_BT_CONNECT1)->SetWindowText(_T("OPEN1"));
+	GetDlgItem(IDC_BT_CONNECT2)->SetWindowText(_T("OPEN2"));
+	GetDlgItem(IDC_BT_CONNECT3)->SetWindowText(_T("OPEN3"));
 
 	m_str_comport1 = _T("COM1");
 	m_str_baudrate1 = _T("57600");
@@ -749,4 +775,75 @@ void CArdupilotKarpeDlg::OnBnClickedBtDisarm3()
 
 	m_comm[2]->Send((const wchar_t*)buffer, len);
 	//---------------------------------------------------------------------------------------
+}
+
+void CArdupilotKarpeDlg::OnBnClickedBtHovering1()
+{
+	// TODO: Add your control notification handler code here
+	xgoal[0] = data.q[0][0];
+	ygoal[0] = data.q[0][1];
+	zgoal[0] = 600;
+
+	data.SetGoal(0, xgoal[0], ygoal[0], zgoal[0]);
+	data.Mode[0] = 1; // 1: hovering / 2: landing / 3: moving / 4: failsafe
+}
+
+
+void CArdupilotKarpeDlg::OnBnClickedBtLanding1()
+{
+	// TODO: Add your control notification handler code here
+	xgoal[0] = data.q[0][0];
+	ygoal[0] = data.q[0][1];
+	zgoal[0] = 250;
+
+	data.SetGoal(0, xgoal[0], ygoal[0], zgoal[0]);
+	data.Mode[0] = 2; // 1: hovering / 2: landing / 3: moving / 4: failsafe
+}
+
+
+void CArdupilotKarpeDlg::OnBnClickedBtHovering2()
+{
+	// TODO: Add your control notification handler code here
+	xgoal[1] = data.q[1][0];
+	ygoal[1] = data.q[1][1];
+	zgoal[1] = 600; 
+
+	data.SetGoal(1, xgoal[0], ygoal[0], zgoal[0]);
+	data.Mode[1] = 1; // 1: hovering / 2: landing / 3: moving / 4: failsafe
+}
+
+
+void CArdupilotKarpeDlg::OnBnClickedBtLanding2()
+{
+	// TODO: Add your control notification handler code here
+	xgoal[1] = data.q[1][0];
+	ygoal[1] = data.q[1][1];
+	zgoal[1] = 250;
+
+	data.SetGoal(1, xgoal[0], ygoal[0], zgoal[0]);
+	data.Mode[1] = 2; // 1: hovering / 2: landing / 3: moving / 4: failsafe
+}
+
+
+void CArdupilotKarpeDlg::OnBnClickedBtHovering3()
+{
+	// TODO: Add your control notification handler code here
+	xgoal[2] = data.q[1][0];
+	ygoal[2] = data.q[1][1];
+	zgoal[2] = 600;
+
+	data.SetGoal(2, xgoal[0], ygoal[0], zgoal[0]);
+	data.Mode[2] = 1; // 1: hovering / 2: landing / 3: moving / 4: failsafe
+}
+
+
+void CArdupilotKarpeDlg::OnBnClickedBtLanding3()
+{
+	// TODO: Add your control notification handler code here
+	xgoal[2] = data.q[1][0];
+	ygoal[2] = data.q[1][1];
+	zgoal[2] = 250;
+
+	data.SetGoal(2, xgoal[0], ygoal[0], zgoal[0]);
+	data.Mode[2] = 2; // 1: hovering / 2: landing / 3: moving / 4: failsafe
 }

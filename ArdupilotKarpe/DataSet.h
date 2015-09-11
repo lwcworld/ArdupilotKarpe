@@ -2,6 +2,7 @@
 
 #include "Resource.h"
 #include "ArdupilotKarpeDlg.h"
+#include "mavlink\common\mavlink.h"
 
 
 
@@ -33,7 +34,7 @@ public:
 
 	int Mode[NQ]; // 0: takeoff / 1: moving / 2: landing / 3: failsafe
 
-	int CTRL_command[4]; // MAVLINK Control input
+	int CTRL_command[NQ][4]; // MAVLINK Control input
 	
 	void StateCalc(int QuadNum);
 	void SetGoal(int QuadNum, double xgoal, double ygoal, double zgoal);

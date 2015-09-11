@@ -92,29 +92,29 @@ void DataSet::CtrlCalc(int QuadNum)
 	double Ki_y = 1;
 
 	//roll
-	DataSet::CTRL_command[0] = 1500 + (Kp_r*DataSet::x_err[QuadNum] - Kd_r*DataSet::vx[QuadNum] + Ki_r*DataSet::x_int_err[QuadNum])*sin(DataSet::theta[QuadNum] * D2R)
+	DataSet::CTRL_command[QuadNum][0] = 1500 + (Kp_r*DataSet::x_err[QuadNum] - Kd_r*DataSet::vx[QuadNum] + Ki_r*DataSet::x_int_err[QuadNum])*sin(DataSet::theta[QuadNum] * D2R)
 		+ (-Kp_r*DataSet::y_err[QuadNum] + Kd_r*DataSet::vy[QuadNum] - Ki_r * DataSet::y_int_err[QuadNum])*cos(DataSet::theta[QuadNum] * D2R);
 
 	//pitch
-	DataSet::CTRL_command[1] = 1500 + (-Kp_p*DataSet::x_err[QuadNum] + Kd_p*DataSet::vx[QuadNum] - Ki_p*DataSet::x_int_err[QuadNum])*cos(DataSet::theta[QuadNum] * D2R)
+	DataSet::CTRL_command[QuadNum][1] = 1500 + (-Kp_p*DataSet::x_err[QuadNum] + Kd_p*DataSet::vx[QuadNum] - Ki_p*DataSet::x_int_err[QuadNum])*cos(DataSet::theta[QuadNum] * D2R)
 		+ (-Kp_p*DataSet::y_err[QuadNum] + Kd_p*DataSet::vy[QuadNum] - Ki_p*DataSet::y_int_err[QuadNum])*sin(DataSet::theta[QuadNum] * D2R);
 
 	// yaw
-	CTRL_command[2] = 1500 + ((-Kp_y*DataSet::theta_err[QuadNum]) + (-Kd_y*DataSet::dtheta[QuadNum]) + (-Ki_y*DataSet::theta_int_err[QuadNum]));
+	CTRL_command[QuadNum][2] = 1500 + ((-Kp_y*DataSet::theta_err[QuadNum]) + (-Kd_y*DataSet::dtheta[QuadNum]) + (-Ki_y*DataSet::theta_int_err[QuadNum]));
 
 	// thrust
-	DataSet::CTRL_command[3] = 1480 + 1 * ((0.23 * DataSet::z_err[QuadNum]) - (0.04*DataSet::vz[QuadNum]) + (0.12 * DataSet::z_int_err[QuadNum]));
+	DataSet::CTRL_command[QuadNum][3] = 1480 + 1 * ((0.23 * DataSet::z_err[QuadNum]) - (0.04*DataSet::vz[QuadNum]) + (0.12 * DataSet::z_int_err[QuadNum]));
 
 	// Control input limitation
-	if (DataSet::CTRL_command[0] > 1850)	DataSet::CTRL_command[0] = 1850;
-	if (DataSet::CTRL_command[0] < 1150)	DataSet::CTRL_command[0] = 1150; //roll
+	if (DataSet::CTRL_command[QuadNum][0] > 1850)	DataSet::CTRL_command[QuadNum][0] = 1850;
+	if (DataSet::CTRL_command[QuadNum][0] < 1150)	DataSet::CTRL_command[QuadNum][0] = 1150; //roll
 
-	if (DataSet::CTRL_command[1] > 1850)	DataSet::CTRL_command[1] = 1850;
-	if (DataSet::CTRL_command[1] < 1150)	DataSet::CTRL_command[1] = 1150; //pitch
+	if (DataSet::CTRL_command[QuadNum][1] > 1850)	DataSet::CTRL_command[QuadNum][1] = 1850;
+	if (DataSet::CTRL_command[QuadNum][1] < 1150)	DataSet::CTRL_command[QuadNum][1] = 1150; //pitch
 
-	if (DataSet::CTRL_command[2] > 1850)	DataSet::CTRL_command[2] = 1850;
-	if (DataSet::CTRL_command[2] < 1150)	DataSet::CTRL_command[2] = 1150; //yaw
+	if (DataSet::CTRL_command[QuadNum][2] > 1850)	DataSet::CTRL_command[QuadNum][2] = 1850;
+	if (DataSet::CTRL_command[QuadNum][2] < 1150)	DataSet::CTRL_command[QuadNum][2] = 1150; //yaw
 
-	if (DataSet::CTRL_command[3] > 1850)	DataSet::CTRL_command[3] = 1850;
-	if (DataSet::CTRL_command[3] < 1150)	DataSet::CTRL_command[3] = 1150; //thrusts
+	if (DataSet::CTRL_command[QuadNum][3] > 1850)	DataSet::CTRL_command[QuadNum][3] = 1850;
+	if (DataSet::CTRL_command[QuadNum][3] < 1150)	DataSet::CTRL_command[QuadNum][3] = 1150; //thrusts
 }

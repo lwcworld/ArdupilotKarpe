@@ -20,6 +20,10 @@ public:
 	CMycomm*     m_comm[NQ];
 	LRESULT      OnThreadClosed(WPARAM length, LPARAM lpara);
 	LRESULT      OnReceive(WPARAM length, LPARAM lpara);
+	void CtrlSend(int QuadNum, double CTRL_roll, double CTRL_pitch, double CTRL_yaw, double CTRL_thrust);
+	double xgoal[NQ];
+	double ygoal[NQ];
+	double zgoal[NQ];
 
 	CArdupilotKarpeDlg(CWnd* pParent = NULL);	// standard constructor
 
@@ -81,4 +85,10 @@ public:
 	afx_msg void OnBnClickedBtDisarm2();
 	afx_msg void OnBnClickedBtArm3();
 	afx_msg void OnBnClickedBtDisarm3();
+	afx_msg void OnBnClickedBtHovering1();
+	afx_msg void OnBnClickedBtLanding1();
+	afx_msg void OnBnClickedBtHovering2();
+	afx_msg void OnBnClickedBtLanding2();
+	afx_msg void OnBnClickedBtHovering3();
+	afx_msg void OnBnClickedBtLanding3();
 };
