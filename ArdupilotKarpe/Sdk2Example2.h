@@ -28,6 +28,7 @@ public:
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include "DataSet.h"
 
 // This object has the ability to receive data from the
 // EvartSdk2Interface object becuase it implements the

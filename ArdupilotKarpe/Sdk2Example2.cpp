@@ -130,7 +130,7 @@ void MySdk2Client::WriteIdentifiedFrame(sFrameOfData* data)
 	// DataSet::Mpos[x][i] : M1 pos(012) / M2 pos(345) / M3 pos(678) / M1 angle (9 10 11)
 	for (int i = 0; i < NQ; i++){
 		for (int j = 0; j < 12; j++){
-			//DataSet::Mpos[i][j] = pos_data[i][j];
+			DataSet::Mpos[i][j] = pos_data[i][j];
 			printf("%d ", pos_data[i][j]);
 		}
 	}
