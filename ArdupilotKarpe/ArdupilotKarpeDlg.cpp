@@ -53,7 +53,7 @@ void CArdupilotKarpeDlg::CtrlSend(int QuadNum, double CTRL_roll, double CTRL_pit
 	rawdata[7] = 0;
 	mavlink_msg_rc_channels_override_pack_chan(255, 0, 1, &message, 1, 0, rawdata[0], rawdata[1], rawdata[2], rawdata[3], rawdata[4], rawdata[5], rawdata[6], rawdata[7]);
 	int len = mavlink_msg_to_send_buffer(buffer, &message);
-	m_comm[0]->Send((const wchar_t*)buffer, len);
+	m_comm[QuadNum]->Send((const wchar_t*)buffer, len);
 }
 
 void CArdupilotKarpeDlg::OnTimer(UINT nIDEvent)
@@ -62,24 +62,28 @@ void CArdupilotKarpeDlg::OnTimer(UINT nIDEvent)
 	{
 	case 1: // 타이머로 제어 입력
 
-		for (int i=0; i < NQ; i++)
+		for (int QuadNum = 0; QuadNum < NQ; QuadNum++)
 		{
-			if (comport_state[i] == true)
+			if (comport_state[QuadNum] == true) // 통신포트가 열려있는 쿼드로터에 대해서만 컨트롤 인풋 줌.
 			{
-				switch (data.Mode[i]) // 1: hovering / 2: landing / 3: moving / 4: failsafe
+				switch (data.Mode[QuadNum]) // 1: hovering / 2: landing / 3: moving / 4: failsafe
 				{
 				case 1:
-					data.StateCalc(i);
-					data.CtrlCalc(i);
-					CtrlSend(i, data.CTRL_command[i][0], data.CTRL_command[i][1], data.CTRL_command[i][2], data.CTRL_command[i][3]);
+					data.StateCalc(QuadNum);
+					data.CtrlCalc(QuadNum);
+					CtrlSend(QuadNum, data.CTRL_command[QuadNum][0], data.CTRL_command[QuadNum][1], data.CTRL_command[QuadNum][2], data.CTRL_command[QuadNum][3]);
 					break;
 
 				case 2:
-
+					data.StateCalc(QuadNum);
+					data.CtrlCalc(QuadNum);
+					CtrlSend(QuadNum, data.CTRL_command[QuadNum][0], data.CTRL_command[QuadNum][1], data.CTRL_command[QuadNum][2], data.CTRL_command[QuadNum][3]);
 					break;
 
 				case 3:
-
+					data.StateCalc(QuadNum);
+					data.CtrlCalc(QuadNum);
+					CtrlSend(QuadNum, data.CTRL_command[QuadNum][0], data.CTRL_command[QuadNum][1], data.CTRL_command[QuadNum][2], data.CTRL_command[QuadNum][3]);
 					break;
 
 				case 4:
@@ -90,7 +94,9 @@ void CArdupilotKarpeDlg::OnTimer(UINT nIDEvent)
 
 			}
 		}
+		break;
 
+	case 2:
 		break;
 	}
 }
@@ -198,6 +204,9 @@ BEGIN_MESSAGE_MAP(CArdupilotKarpeDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_BT_LANDING2, &CArdupilotKarpeDlg::OnBnClickedBtLanding2)
 	ON_BN_CLICKED(IDC_BT_HOVERING3, &CArdupilotKarpeDlg::OnBnClickedBtHovering3)
 	ON_BN_CLICKED(IDC_BT_LANDING3, &CArdupilotKarpeDlg::OnBnClickedBtLanding3)
+	ON_BN_CLICKED(IDC_BT_NEXTPOINT1, &CArdupilotKarpeDlg::OnBnClickedBtNextpoint1)
+	ON_BN_CLICKED(IDC_BT_UP1, &CArdupilotKarpeDlg::OnBnClickedBtUp1)
+	ON_BN_CLICKED(IDC_BT_DOWN1, &CArdupilotKarpeDlg::OnBnClickedBtDown1)
 END_MESSAGE_MAP()
 
 LRESULT CArdupilotKarpeDlg::OnThreadClosed(WPARAM length, LPARAM lpara)
@@ -370,6 +379,9 @@ BOOL CArdupilotKarpeDlg::OnInitDialog()
 	UpdateData(FALSE);
 
 	SetTimer(1, 20, NULL);
+	SetTimer(2, 100, NULL); // gnuplot
+
+	
 	
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
@@ -828,8 +840,8 @@ void CArdupilotKarpeDlg::OnBnClickedBtLanding2()
 void CArdupilotKarpeDlg::OnBnClickedBtHovering3()
 {
 	// TODO: Add your control notification handler code here
-	xgoal[2] = data.q[1][0];
-	ygoal[2] = data.q[1][1];
+	xgoal[2] = data.q[2][0];
+	ygoal[2] = data.q[2][1];
 	zgoal[2] = 600;
 
 	data.SetGoal(2, xgoal[0], ygoal[0], zgoal[0]);
@@ -840,10 +852,75 @@ void CArdupilotKarpeDlg::OnBnClickedBtHovering3()
 void CArdupilotKarpeDlg::OnBnClickedBtLanding3()
 {
 	// TODO: Add your control notification handler code here
-	xgoal[2] = data.q[1][0];
-	ygoal[2] = data.q[1][1];
+	xgoal[2] = data.q[2][0];
+	ygoal[2] = data.q[2][1];
 	zgoal[2] = 250;
 
 	data.SetGoal(2, xgoal[0], ygoal[0], zgoal[0]);
 	data.Mode[2] = 2; // 1: hovering / 2: landing / 3: moving / 4: failsafe
+}
+
+
+void CArdupilotKarpeDlg::OnBnClickedBtNextpoint1()
+{
+	// TODO: Add your control notification handler code here
+
+	static int step = 1;
+
+	switch (step)
+	{
+	case 1:
+		xgoal[0] = 700;
+		ygoal[0] = 700;
+
+		step++;
+		break;
+	case 2:
+		xgoal[0] = -700;
+		ygoal[0] = 700;
+
+		step++;
+		break;
+	case 3:
+		xgoal[0] = -700;
+		ygoal[0] = -700;
+
+		step++;
+		break;
+	case 4:
+		xgoal[0] = 700;
+		ygoal[0] = -700;
+
+		step++;
+		break;
+	case 5:
+		xgoal[0] = 700;
+		ygoal[0] = 700;
+
+		step = 1;
+		break;
+	}
+
+	data.SetGoal(0, xgoal[0], ygoal[0], zgoal[0]);
+	data.Mode[0] = 3; // 1: hovering / 2: landing / 3: moving / 4: failsafe
+}
+
+
+
+
+void CArdupilotKarpeDlg::OnBnClickedBtUp1()
+{
+	// TODO: Add your control notification handler code here
+	if (zgoal[0] < 1000) zgoal[0] = zgoal[0] + 100;
+
+	data.SetGoal(0, xgoal[0], ygoal[0], zgoal[0]);
+}
+
+
+void CArdupilotKarpeDlg::OnBnClickedBtDown1()
+{
+	// TODO: Add your control notification handler code here
+	if (zgoal[0] > 300) zgoal[0] = zgoal[0] - 100;
+
+	data.SetGoal(0, xgoal[0], ygoal[0], zgoal[0]);
 }

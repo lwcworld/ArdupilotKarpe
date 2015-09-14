@@ -91,4 +91,7 @@ public:
 	afx_msg void OnBnClickedBtLanding2();
 	afx_msg void OnBnClickedBtHovering3();
 	afx_msg void OnBnClickedBtLanding3();
+	afx_msg void OnBnClickedBtNextpoint1();
+	afx_msg void OnBnClickedBtUp1();
+	afx_msg void OnBnClickedBtDown1();
 };
