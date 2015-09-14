@@ -66,24 +66,24 @@ void CArdupilotKarpeDlg::OnTimer(UINT nIDEvent)
 		{
 			if (comport_state[QuadNum] == true) // 통신포트가 열려있는 쿼드로터에 대해서만 컨트롤 인풋 줌.
 			{
-				switch (data.Mode[QuadNum]) // 1: hovering / 2: landing / 3: moving / 4: failsafe
+				switch (DataSet::Mode[QuadNum]) // 1: hovering / 2: landing / 3: moving / 4: failsafe
 				{
 				case 1:
 					data.StateCalc(QuadNum);
 					data.CtrlCalc(QuadNum);
-					CtrlSend(QuadNum, data.CTRL_command[QuadNum][0], data.CTRL_command[QuadNum][1], data.CTRL_command[QuadNum][2], data.CTRL_command[QuadNum][3]);
+					CtrlSend(QuadNum, DataSet::CTRL_command[QuadNum][0], DataSet::CTRL_command[QuadNum][1], DataSet::CTRL_command[QuadNum][2], DataSet::CTRL_command[QuadNum][3]);
 					break;
 
 				case 2:
 					data.StateCalc(QuadNum);
 					data.CtrlCalc(QuadNum);
-					CtrlSend(QuadNum, data.CTRL_command[QuadNum][0], data.CTRL_command[QuadNum][1], data.CTRL_command[QuadNum][2], data.CTRL_command[QuadNum][3]);
+					CtrlSend(QuadNum, DataSet::CTRL_command[QuadNum][0], DataSet::CTRL_command[QuadNum][1], DataSet::CTRL_command[QuadNum][2], DataSet::CTRL_command[QuadNum][3]);
 					break;
 
 				case 3:
 					data.StateCalc(QuadNum);
 					data.CtrlCalc(QuadNum);
-					CtrlSend(QuadNum, data.CTRL_command[QuadNum][0], data.CTRL_command[QuadNum][1], data.CTRL_command[QuadNum][2], data.CTRL_command[QuadNum][3]);
+					CtrlSend(QuadNum, DataSet::CTRL_command[QuadNum][0], DataSet::CTRL_command[QuadNum][1], DataSet::CTRL_command[QuadNum][2], DataSet::CTRL_command[QuadNum][3]);
 					break;
 
 				case 4:
@@ -792,72 +792,72 @@ void CArdupilotKarpeDlg::OnBnClickedBtDisarm3()
 void CArdupilotKarpeDlg::OnBnClickedBtHovering1()
 {
 	// TODO: Add your control notification handler code here
-	xgoal[0] = data.q[0][0];
-	ygoal[0] = data.q[0][1];
+	xgoal[0] = DataSet::q[0][0];
+	ygoal[0] = DataSet::q[0][1];
 	zgoal[0] = 600;
 
 	data.SetGoal(0, xgoal[0], ygoal[0], zgoal[0]);
-	data.Mode[0] = 1; // 1: hovering / 2: landing / 3: moving / 4: failsafe
+	DataSet::Mode[0] = 1; // 1: hovering / 2: landing / 3: moving / 4: failsafe
 }
 
 
 void CArdupilotKarpeDlg::OnBnClickedBtLanding1()
 {
 	// TODO: Add your control notification handler code here
-	xgoal[0] = data.q[0][0];
-	ygoal[0] = data.q[0][1];
+	xgoal[0] = DataSet::q[0][0];
+	ygoal[0] = DataSet::q[0][1];
 	zgoal[0] = 250;
 
 	data.SetGoal(0, xgoal[0], ygoal[0], zgoal[0]);
-	data.Mode[0] = 2; // 1: hovering / 2: landing / 3: moving / 4: failsafe
+	DataSet::Mode[0] = 2; // 1: hovering / 2: landing / 3: moving / 4: failsafe
 }
 
 
 void CArdupilotKarpeDlg::OnBnClickedBtHovering2()
 {
 	// TODO: Add your control notification handler code here
-	xgoal[1] = data.q[1][0];
-	ygoal[1] = data.q[1][1];
+	xgoal[1] = DataSet::q[1][0];
+	ygoal[1] = DataSet::q[1][1];
 	zgoal[1] = 600; 
 
 	data.SetGoal(1, xgoal[0], ygoal[0], zgoal[0]);
-	data.Mode[1] = 1; // 1: hovering / 2: landing / 3: moving / 4: failsafe
+	DataSet::Mode[1] = 1; // 1: hovering / 2: landing / 3: moving / 4: failsafe
 }
 
 
 void CArdupilotKarpeDlg::OnBnClickedBtLanding2()
 {
 	// TODO: Add your control notification handler code here
-	xgoal[1] = data.q[1][0];
-	ygoal[1] = data.q[1][1];
+	xgoal[1] = DataSet::q[1][0];
+	ygoal[1] = DataSet::q[1][1];
 	zgoal[1] = 250;
 
 	data.SetGoal(1, xgoal[0], ygoal[0], zgoal[0]);
-	data.Mode[1] = 2; // 1: hovering / 2: landing / 3: moving / 4: failsafe
+	DataSet::Mode[1] = 2; // 1: hovering / 2: landing / 3: moving / 4: failsafe
 }
 
 
 void CArdupilotKarpeDlg::OnBnClickedBtHovering3()
 {
 	// TODO: Add your control notification handler code here
-	xgoal[2] = data.q[2][0];
-	ygoal[2] = data.q[2][1];
+	xgoal[2] = DataSet::q[2][0];
+	ygoal[2] = DataSet::q[2][1];
 	zgoal[2] = 600;
 
 	data.SetGoal(2, xgoal[0], ygoal[0], zgoal[0]);
-	data.Mode[2] = 1; // 1: hovering / 2: landing / 3: moving / 4: failsafe
+	DataSet::Mode[2] = 1; // 1: hovering / 2: landing / 3: moving / 4: failsafe
 }
 
 
 void CArdupilotKarpeDlg::OnBnClickedBtLanding3()
 {
 	// TODO: Add your control notification handler code here
-	xgoal[2] = data.q[2][0];
-	ygoal[2] = data.q[2][1];
+	xgoal[2] = DataSet::q[2][0];
+	ygoal[2] = DataSet::q[2][1];
 	zgoal[2] = 250;
 
 	data.SetGoal(2, xgoal[0], ygoal[0], zgoal[0]);
-	data.Mode[2] = 2; // 1: hovering / 2: landing / 3: moving / 4: failsafe
+	DataSet::Mode[2] = 2; // 1: hovering / 2: landing / 3: moving / 4: failsafe
 }
 
 
@@ -902,7 +902,7 @@ void CArdupilotKarpeDlg::OnBnClickedBtNextpoint1()
 	}
 
 	data.SetGoal(0, xgoal[0], ygoal[0], zgoal[0]);
-	data.Mode[0] = 3; // 1: hovering / 2: landing / 3: moving / 4: failsafe
+	DataSet::Mode[0] = 3; // 1: hovering / 2: landing / 3: moving / 4: failsafe
 }
 
 

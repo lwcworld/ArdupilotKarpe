@@ -1,6 +1,31 @@
 #include "stdafx.h"
 #include "DataSet.h"
 
+double DataSet::Mpos[NQ][9];
+double DataSet::x_err[NQ];
+double DataSet::y_err[NQ];
+double DataSet::z_err[NQ];
+double DataSet::vx[NQ];
+double DataSet::vy[NQ];
+double DataSet::vz[NQ];
+double DataSet::x_int_err[NQ];
+double DataSet::y_int_err[NQ];
+double DataSet::z_int_err[NQ];
+double DataSet::theta_ref[NQ]; // 클래스 밖에서 초기화해줘야 한다!
+double DataSet::theta_err[NQ];
+double DataSet::dtheta[NQ];
+double DataSet::theta_int_err[NQ];
+double DataSet::theta[NQ];
+double DataSet::Pos_err[NQ];
+
+double DataSet::GoalPos[NQ][3];
+double DataSet::q[NQ][6]; // quadrotor state: pos(012) / angle(345)
+double DataSet::q_prev[NQ][6]; // quadrotor previous state: pos(012) / angle(345)
+
+int DataSet::Mode[NQ]; // 0: takeoff / 1: moving / 2: landing / 3: failsafe
+
+int DataSet::CTRL_command[NQ][4]; // MAVLINK Control input
+
 DataSet::DataSet()
 {
 }
